@@ -84,8 +84,9 @@ across to a different host. As long as the store path is the same.
 Proot can rewrite paths transparently so your home directory looks
 like a root directory (where we create /gnu/store).  The first thing
 to do is install proot on your build system. This can be done with
-compilation from [[https://proot-me.github.io/][source]]. If you happen to have Guix running somewhere
-you can move proot across:
+compilation from [[https://proot-me.github.io/][source]] or by downloading
+the proot binary from the `dist` stage of the Gitlab CI pipeline. Otherwise
+if you happen to have Guix running somewhere you can move proot across:
 
 : scp $(guix build proot-static)/bin/proot remote:
 
@@ -95,6 +96,8 @@ Create a directory to install Guix, e.g.
 
 : mkdir ~/guix-no-root
 
+On a ChromeOS device only the /usr/local path is user editable and mounted with exec (/tmp /home etc are all `noexec`)
+
 * Install the Guix binary installation
 
 Fetch the [[https://www.gnu.org/software/guix/download/][binary tarball]] and install in your directory, e.g.,
@@ -102,6 +105,8 @@ Fetch the [[https://www.gnu.org/software/guix/download/][binary tarball]] and in
 : cd ~/guix-no-root
 : wget https://alpha.gnu.org/gnu/guix/guix-binary-0.13.0.x86_64-linux.tar.xz
 : tar --warning=no-timestamp -xf  guix-binary-0.13.0.x86_64-linux.tar.xz
+
+On ChromeOS you have `curl` not `wget` so it becomes `curl -LO $URL`.
 
 now you can remove the tar ball
 
@@ -124,11 +129,15 @@ inside your store with a command like
 
 : ls gnu/store/*/bin/bash
 
-to fish out the paths.
+or
+
+: find gnu -name 'bash'
+
+to fish out the path to the static version.
 
 * Run guix daemon in proot
 
-Open a new terminal window and start the guix daemon
+Open a new terminal window and start the guix daemon, this path may also be slightly different and require `find`
 
 : proot -r '.' -b /proc -b /dev -b /etc gnu/store/vir3lrwqy50pr8fkaf3m091dgbrja2n6-guix-0.13.0/bin/guix-daemon
 
