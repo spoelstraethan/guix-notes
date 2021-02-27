@@ -114,6 +114,8 @@ now you can remove the tar ball
 
 * Run proot
 
+Proot's -R handles some of the -b bindings you might want automatically, using -S fakes root permissions and uses less binds to be safer for package installations that might want to muck with things in the default -R binds.
+
 At this point you should be able to locate bash in the store and, for example,
 do
 
