@@ -141,6 +141,8 @@ Open a new terminal window and start the guix daemon, this path may also be slig
 
 : proot -r '.' -b /proc -b /dev -b /etc gnu/store/vir3lrwqy50pr8fkaf3m091dgbrja2n6-guix-0.13.0/bin/guix-daemon
 
+On ChromeOS you need to bind the "real" resolv.conf to download packages correctly `-b /var/run/shill/resolv.conf:/etc/resolv.conf`
+
 and run guix in the another terminal
 
 : proot -r '.' -b /proc/ gnu/store/vir3lrwqy50pr8fkaf3m091dgbrja2n6-guix-0.13.0/bin/guix package -A hello
